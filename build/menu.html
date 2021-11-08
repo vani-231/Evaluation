@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <div id="navbar"></div>
+    <div id="item" class="grid grid-cols-4 grid-rows-3 gap-16 m-20" ></div>
+</body>
+</html>
+<script>
+  let parent = document.getElementById("item")
+  async function getitems(){
+      let data =  await fetch("https://www.themealdb.com/api/json/v1/1/search.php?f=k")
+      let res =   await data.json()
+      console.log(res);
+      showdata(res.meals)
+  }
+  getitems();
+
+  function showdata(items){
+    
+      items.forEach((item) => {
+          //console.log(item);
+          let name = document.createElement("h1")
+          name.textContent = "Name :- " + item.strMeal
+          let img = document.createElement("img")
+          img.src = item.strMealThumb
+          let id = document.createElement("p")
+          id.textContent = "id :- "+ item.idMeal
+          let description = document.createElement("p")
+          description.textContent = "description :- " + item.strInstructions
+          let cost = document.createElement("p")
+          cost.textContent = "cost :-" + "Rs. "+ Math.round(Math.random()*1000)
+          let div = document.createElement("div")
+          let cart = document.createElement("button")
+          cart.style.border = "1px solid black"
+          cart.textContent = "Add to Cart"
+          cart.onclick = function(){
+              //cart.a.href = "cart.html"
+              setInterval(() => {
+                alert(`your order is ready`)
+              }, 5000);
+
+              
+          }
+          div.append(name,id,cost , cart,img,description)
+          parent.append(div)
+
+          
+      });
+
+  }
+
+</script>
+<script type="module">
+    import navbar from "./food.js"
+    document.getElementById("navbar").innerHTML = navbar()
+</script>
